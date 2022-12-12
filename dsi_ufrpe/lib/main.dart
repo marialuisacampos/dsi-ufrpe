@@ -101,25 +101,34 @@ class _RandomWordsState extends State<RandomWords> {
             if (index >= _suggestions.length) {
               _suggestions.addAll(generateWordPairs().take(10));
             }
-            return ListTile(
-                title: Text(
-                  _suggestions[index].asPascalCase,
-                  style: _biggerFont,
-                ),
-                trailing: Icon(
-                  alreadySaved ? Icons.favorite : Icons.favorite_border,
-                  color: alreadySaved ? Colors.red : null,
-                  semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
-                ),
-                onTap: () {
+            return Dismissible(
+                key: UniqueKey(),
+                onDismissed: (direction) {
                   setState(() {
-                    if (alreadySaved) {
-                      _saved.remove(_suggestions[index]);
-                    } else {
-                      _saved.add(_suggestions[index]);
-                    }
+                    _suggestions.removeAt(i);
                   });
-                });
+                },
+                background: Container(color: Colors.red),
+                child: ListTile(
+                    title: Text(
+                      _suggestions[index].asPascalCase,
+                      style: _biggerFont,
+                    ),
+                    trailing: Icon(
+                      alreadySaved ? Icons.favorite : Icons.favorite_border,
+                      color: alreadySaved ? Colors.red : null,
+                      semanticLabel:
+                          alreadySaved ? 'Remove from saved' : 'Save',
+                    ),
+                    onTap: () {
+                      setState(() {
+                        if (alreadySaved) {
+                          _saved.remove(_suggestions[index]);
+                        } else {
+                          _saved.add(_suggestions[index]);
+                        }
+                      });
+                    }));
           },
         ));
   }
