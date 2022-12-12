@@ -110,25 +110,25 @@ class _RandomWordsState extends State<RandomWords> {
                 },
                 background: Container(color: Colors.red),
                 child: ListTile(
-                    title: Text(
-                      _suggestions[index].asPascalCase,
-                      style: _biggerFont,
-                    ),
-                    trailing: Icon(
-                      alreadySaved ? Icons.favorite : Icons.favorite_border,
+                  title: Text(
+                    _suggestions[index].asPascalCase,
+                    style: _biggerFont,
+                  ),
+                  trailing: IconButton(
+                      icon: alreadySaved
+                          ? Icon(Icons.favorite)
+                          : Icon(Icons.favorite_border),
                       color: alreadySaved ? Colors.red : null,
-                      semanticLabel:
-                          alreadySaved ? 'Remove from saved' : 'Save',
-                    ),
-                    onTap: () {
-                      setState(() {
-                        if (alreadySaved) {
-                          _saved.remove(_suggestions[index]);
-                        } else {
-                          _saved.add(_suggestions[index]);
-                        }
-                      });
-                    }));
+                      onPressed: () {
+                        setState(() {
+                          if (alreadySaved) {
+                            _saved.remove(_suggestions[index]);
+                          } else {
+                            _saved.add(_suggestions[index]);
+                          }
+                        });
+                      }),
+                ));
           },
         ));
   }
